@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 const HeaderStyle = styled.div`
   background-color: black;
@@ -17,8 +17,19 @@ const HeaderStyle = styled.div`
   height: 100px;
 `;
 
+const ListStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  width: 1000px;
+  height: 100px;
+
+  border: 5px solid green;
+`;
+
 const Home = ({ list, setList }) => {
-  const [seletedMonth, setSelectedMonth] = useState("");
   const [date, setDate] = useState("");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState(0);
@@ -49,8 +60,6 @@ const Home = ({ list, setList }) => {
     "11월",
     "12월",
   ];
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -91,24 +100,25 @@ const Home = ({ list, setList }) => {
           <button onClick={saveBtn}>저장</button>
         </HeaderStyle>
       </div>
-      <div seletedMonth={seletedMonth} setSelectedMonth={setSelectedMonth}>
+      <div>
         {month.map((month, index) => {
           return <button key={index}>{month}</button>;
         })}
       </div>
+
       <div>
-        {list.map(data => (
-          <div
-            key={data.id}
-            onClick={() => {
-              navigate(`/detail/${data.id}`);
-            }}>
-            <p>{data.date}</p>
-            <p>{data.item}</p>
-            <p>{data.description}</p>
-            <p>{data.amount}</p>
-          </div>
-        ))}
+        {list.map(data => {
+          return (
+            <Link key={data.id} to={`/detail/${data.id}`}>
+              <ListStyle>
+                <p>{data.date}</p>
+                <p>{data.item}</p>
+                <p>{data.description}</p>
+                <p>{data.amount}</p>
+              </ListStyle>
+            </Link>
+          );
+        })}
       </div>
     </>
   );

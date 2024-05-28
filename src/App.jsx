@@ -63,7 +63,10 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home list={list} setList={setList} />} />
-        <Route path="/detail/:id" element={<Detail />} />
+        <Route
+          path="/detail/:id"
+          element={<Detail list={list} setList={setList} />}
+        />
       </Routes>
     </BrowserRouter>
   );
