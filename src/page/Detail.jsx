@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Detail = ({ list, setList }) => {
@@ -11,9 +11,11 @@ const Detail = ({ list, setList }) => {
     return item.id === params.id;
   });
 
-  const inputChange = e => {
-    const { input, value } = e.target.value;
-    setList({ ...list, input: value });
+  const [inputValue, setInputValue] = useState(targetData);
+
+  const hangleInputChange = e => {
+    setInputValue(e.target.value);
+    setList([{ ...list, inputValue }]);
   };
 
   return (
@@ -21,19 +23,19 @@ const Detail = ({ list, setList }) => {
       <div>
         <div>
           날짜
-          <input value={targetData.date} onChange={inputChange} />
+          <input value={inputValue} onChange={hangleInputChange} />
         </div>
         <div>
           항목
-          <input value={targetData.item} onChange={inputChange} />
+          <input value={inputValue} onChange={hangleInputChange} />
         </div>
         <div>
           내용
-          <input value={targetData.description} onChange={inputChange} />
+          <input value={inputValue} onChange={hangleInputChange} />
         </div>
         <div>
           금액
-          <input value={targetData.amount} onChange={inputChange} />
+          <input value={inputValue} onChange={hangleInputChange} />
         </div>
       </div>
       <button>수정</button>
