@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const HeaderStyle = styled.div`
   background-color: black;
@@ -15,6 +15,8 @@ const HeaderStyle = styled.div`
 
   width: 1000px;
   height: 100px;
+
+  border-radius: 7px;
 `;
 
 const ListStyle = styled.div`
@@ -26,7 +28,38 @@ const ListStyle = styled.div`
   width: 1000px;
   height: 100px;
 
-  border: 5px solid green;
+  border: 5px solid gray;
+`;
+
+const MonthBtnStyle = styled.button`
+  font-size: 25px;
+
+  background-color: ${(props) => (props.$colorChange ? "black" : "#ffc20e")};
+  color: ${(props) => (props.$colorChange ? "#ffc20e" : "black")};
+
+  align-items: center;
+  justify-content: center;
+  margin: 6px;
+  border-radius: 5px;
+
+  width: 15%;
+  height: 70px;
+
+  border: 2px solid #ffc20e;
+`;
+
+const WrapMonthBtn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  background-color: black;
+  margin: 5px;
+  border-radius: 5px;
+
+  width: 1000px;
+  height: 200px;
 `;
 
 const Home = ({ list, setList }) => {
@@ -46,20 +79,10 @@ const Home = ({ list, setList }) => {
     setList([...list, newList]);
   };
 
-  const month = [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ];
+  const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  const [clickedMonth, setClickedMonth] = useState(1);
+  console.log(clickedMonth);
 
   return (
     <>
@@ -70,7 +93,7 @@ const Home = ({ list, setList }) => {
             <input
               type="number"
               value={date}
-              onChange={e => setDate(e.target.value)}
+              onChange={(e) => setDate(e.target.value)}
             />
           </div>
           <div>
@@ -78,7 +101,7 @@ const Home = ({ list, setList }) => {
             <input
               type="text"
               value={item}
-              onChange={e => setItem(e.target.value)}
+              onChange={(e) => setItem(e.target.value)}
             />
           </div>
           <div>
@@ -86,7 +109,7 @@ const Home = ({ list, setList }) => {
             <input
               type="number"
               value={price}
-              onChange={e => setPrice(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
           <div>
@@ -94,20 +117,26 @@ const Home = ({ list, setList }) => {
             <input
               type="text"
               value={contents}
-              onChange={e => setContents(e.target.value)}
+              onChange={(e) => setContents(e.target.value)}
             />
           </div>
           <button onClick={saveBtn}>저장</button>
         </HeaderStyle>
       </div>
-      <div>
-        {month.map((month, index) => {
-          return <button key={index}>{month}</button>;
-        })}
-      </div>
+      <WrapMonthBtn>
+        <div>
+          {month.map((month, index) => {
+            return (
+              <MonthBtnStyle key={index} $colorChange={month === clickedMonth}>
+                <div onClick={() => setClickedMonth(month)}>{month}월</div>
+              </MonthBtnStyle>
+            );
+          })}
+        </div>
+      </WrapMonthBtn>
 
       <div>
-        {list.map(data => {
+        {list.map((data) => {
           return (
             <Link key={data.id} to={`/detail/${data.id}`}>
               <ListStyle>
