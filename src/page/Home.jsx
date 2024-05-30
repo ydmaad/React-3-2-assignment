@@ -17,6 +17,15 @@ const HeaderStyle = styled.div`
   height: 100px;
 
   border-radius: 7px;
+  margin: 5px;
+`;
+
+const WrapListStyle = styled.div`
+  background-color: black;
+  width: 990px;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
 `;
 
 const ListStyle = styled.div`
@@ -24,11 +33,14 @@ const ListStyle = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  color: black;
 
-  width: 1000px;
+  width: 970px;
   height: 100px;
 
-  border: 5px solid gray;
+  background-color: #ffc20e;
+  border-radius: 10px;
+  margin: 10px;
 `;
 
 const MonthBtnStyle = styled.button`
@@ -63,26 +75,44 @@ const WrapMonthBtn = styled.div`
 `;
 
 const Home = ({ list, setList }) => {
-  const [date, setDate] = useState("");
-  const [item, setItem] = useState("");
-  const [price, setPrice] = useState(0);
-  const [contents, setContents] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newItem, setNewItem] = useState("");
+  const [newAmount, setNewAmount] = useState(0);
+  const [newDescription, setNewDescription] = useState("");
 
-  const saveBtn = () => {
+  const addBtn = () => {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!datePattern.test(newDate)) {
+      alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
+      return;
+    }
+
+    const parseAmount = parseInt(newAmount, 10);
+    if (!newItem || parseAmount <= 0) {
+      alert("유효한 항목과 금액을 입력해주세요.");
+      return;
+    }
+
     const newList = {
       id: uuidv4(),
-      date: date,
-      item: item,
-      amount: price,
-      description: contents,
+      date: newDate,
+      item: newItem,
+      amount: parseAmount,
+      description: newDescription,
     };
     setList([...list, newList]);
+    setNewDate("");
+    setNewItem("");
+    setNewAmount("");
+    setNewDescription("");
   };
 
   const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const [clickedMonth, setClickedMonth] = useState(1);
   console.log(clickedMonth);
+
+  console.log(list);
 
   return (
     <>
@@ -91,36 +121,36 @@ const Home = ({ list, setList }) => {
           <div>
             날짜
             <input
-              type="number"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              type="text"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
             />
           </div>
           <div>
             항목
             <input
               type="text"
-              value={item}
-              onChange={(e) => setItem(e.target.value)}
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
             />
           </div>
           <div>
             금액
             <input
               type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              value={newAmount}
+              onChange={(e) => setNewAmount(e.target.value)}
             />
           </div>
           <div>
             내용
             <input
               type="text"
-              value={contents}
-              onChange={(e) => setContents(e.target.value)}
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
             />
           </div>
-          <button onClick={saveBtn}>저장</button>
+          <button onClick={addBtn}>저장</button>
         </HeaderStyle>
       </div>
       <WrapMonthBtn>
@@ -135,20 +165,26 @@ const Home = ({ list, setList }) => {
         </div>
       </WrapMonthBtn>
 
-      <div>
-        {list.map((data) => {
-          return (
-            <Link key={data.id} to={`/detail/${data.id}`}>
-              <ListStyle>
-                <p>{data.date}</p>
-                <p>{data.item}</p>
-                <p>{data.description}</p>
-                <p>{data.amount}</p>
-              </ListStyle>
-            </Link>
-          );
-        })}
-      </div>
+      <WrapListStyle>
+        {list
+          .filter((list) => {
+            return parseInt(list.date.split("-")[1]) === clickedMonth;
+          })
+          .map((data) => {
+            return (
+              <Link key={data.id} to={`/detail/${data.id}`}>
+                <ListStyle>
+                  <span>{data.date}</span>
+
+                  <span>
+                    {data.item}-{data.description}
+                  </span>
+                  <span>{data.amount}원</span>
+                </ListStyle>
+              </Link>
+            );
+          })}
+      </WrapListStyle>
     </>
   );
 };

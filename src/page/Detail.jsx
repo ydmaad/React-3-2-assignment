@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+
+const DetailWrap = styled.div`
+  background-color: black;
+  color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+`;
 
 const Detail = ({ list, setList }) => {
   // console.log(list)
@@ -65,33 +74,35 @@ const Detail = ({ list, setList }) => {
 
   return (
     <>
-      <div>
+      <DetailWrap>
         <div>
-          날짜
-          <input value={date} onChange={handleDateChange} />
+          <div>
+            날짜
+            <input value={date} onChange={handleDateChange} />
+          </div>
+          <div>
+            항목
+            <input value={item} onChange={handleItemChange} />
+          </div>
+          <div>
+            내용
+            <input value={description} onChange={handleDescriptionChange} />
+          </div>
+          <div>
+            금액
+            <input value={amount} onChange={handleAmountChange} />
+          </div>
         </div>
-        <div>
-          항목
-          <input value={item} onChange={handleItemChange} />
-        </div>
-        <div>
-          내용
-          <input value={description} onChange={handleDescriptionChange} />
-        </div>
-        <div>
-          금액
-          <input value={amount} onChange={handleAmountChange} />
-        </div>
-      </div>
-      <button onClick={editList}>수정</button>
-      <button onClick={deleteList}>삭제</button>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        뒤로 가기
-      </button>
+        <button onClick={editList}>수정</button>
+        <button onClick={deleteList}>삭제</button>
+        <button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          뒤로 가기
+        </button>
+      </DetailWrap>
     </>
   );
 };
