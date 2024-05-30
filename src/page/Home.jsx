@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useParams } from "react-router-dom";
+import { ListContext } from "../ListContext";
 
 const HeaderStyle = styled.div`
   background-color: black;
@@ -74,7 +75,9 @@ const WrapMonthBtn = styled.div`
   height: 200px;
 `;
 
-const Home = ({ list, setList }) => {
+const Home = () => {
+  const { list, setList } = useContext(ListContext);
+
   const [newDate, setNewDate] = useState("");
   const [newItem, setNewItem] = useState("");
   const [newAmount, setNewAmount] = useState(0);

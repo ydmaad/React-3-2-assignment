@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ListContext } from "../ListContext";
 
 const DetailWrap = styled.div`
   background-color: black;
@@ -10,7 +11,8 @@ const DetailWrap = styled.div`
   border-radius: 5px;
 `;
 
-const Detail = ({ list, setList }) => {
+const Detail = () => {
+  const { list, setList } = useContext(ListContext);
   // console.log(list)
   const navigate = useNavigate();
 
