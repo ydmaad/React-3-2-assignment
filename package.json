@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
     "@supabase/supabase-js": "^2.43.4",
     "components": "^0.1.0",
     "reac": "^0.0.0",

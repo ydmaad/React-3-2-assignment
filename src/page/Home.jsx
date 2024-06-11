@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useParams } from "react-router-dom";
-import { ListContext } from "../ListContext";
+import { useSelector } from "react-redux";
 
 const HeaderStyle = styled.div`
   background-color: black;
@@ -76,7 +76,8 @@ const WrapMonthBtn = styled.div`
 `;
 
 const Home = () => {
-  const { list, setList } = useContext(ListContext);
+  const list = useSelector(() => state.list);
+  console.log("list=>", list);
 
   const [newDate, setNewDate] = useState("");
   const [newItem, setNewItem] = useState("");
@@ -114,8 +115,6 @@ const Home = () => {
 
   const [clickedMonth, setClickedMonth] = useState(1);
   console.log(clickedMonth);
-
-  console.log(list);
 
   return (
     <>
